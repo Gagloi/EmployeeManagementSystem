@@ -7,9 +7,7 @@ import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
 @Table(name = "skill")
 public class Skill {
@@ -29,5 +27,45 @@ public class Skill {
     @Enumerated(value = EnumType.STRING)
     private SkillType skillType;
 
+    public Skill() {
+    }
 
+    public Skill(Long id, String name, Category category, SkillType skillType) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.skillType = skillType;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public SkillType getSkillType() {
+        return skillType;
+    }
+
+    public void setSkillType(SkillType skillType) {
+        this.skillType = skillType;
+    }
 }
