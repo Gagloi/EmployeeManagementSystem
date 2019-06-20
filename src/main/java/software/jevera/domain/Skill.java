@@ -3,6 +3,7 @@ package software.jevera.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
 
@@ -22,7 +23,7 @@ public class Skill {
     private String name;
 
     @JoinColumn(name = "category_fk")
-    @OneToOne
+    @ManyToOne
     private Category category;
 
     @Enumerated(value = EnumType.STRING)
