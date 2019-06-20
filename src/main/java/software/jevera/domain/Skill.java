@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Skill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
@@ -67,5 +67,15 @@ public class Skill {
 
     public void setSkillType(SkillType skillType) {
         this.skillType = skillType;
+    }
+
+    @Override
+    public String toString() {
+        return "Skill{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", category=" + category +
+                ", skillType=" + skillType +
+                '}';
     }
 }
