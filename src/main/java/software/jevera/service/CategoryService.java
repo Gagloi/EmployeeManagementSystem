@@ -3,10 +3,8 @@ package software.jevera.service;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import software.jevera.dao.CategoryRepository;
-import software.jevera.dao.EmployeeRepository;
+import software.jevera.dao.jpa.CategoryRepository;
 import software.jevera.domain.Category;
-import software.jevera.domain.Employee;
 import software.jevera.exceptions.EntityNotFound;
 
 import java.util.List;

@@ -1,10 +1,10 @@
 package software.jevera.service;
 
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import software.jevera.dao.EmployeeRepository;
+import software.jevera.dao.jpa.EmployeeRepository;
 import software.jevera.domain.Employee;
 import software.jevera.exceptions.EmployeeAlreadyExist;
 import software.jevera.exceptions.EmployeeDoesNoExist;
@@ -13,17 +13,16 @@ import software.jevera.exceptions.EntityNotFound;
 import java.util.List;
 
 @Service
+@Slf4j
 public class EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
     public Employee createEmployee(Employee employee) {
-        if(!employeeHasId(employee)) {
-            return employeeRepository.save(employee);
-        }else{
-            throw new EmployeeAlreadyExist();
-        }
+        log.info("msg {}", employee.getSkills().toString());
+        log.info("msg {}", employee.toString());
+        return employeeRepository.save(employee);
     }
 
     public Employee findById(Long id) {
@@ -43,15 +42,8 @@ public class EmployeeService {
     }
 
     public Employee update(Employee employee) {
-        if(employeeHasId(employee)) {
-            return employeeRepository.save(employee);
-        }else{
-            throw new EmployeeDoesNoExist();
-        }
+        return employeeRepository.save(employee);
     }
 
-    private boolean employeeHasId(Employee employee){
-        return employee.getId() != null;
-    }
 
 }

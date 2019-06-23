@@ -8,14 +8,20 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "employee")
-public class Employee {
+public class Employee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +29,8 @@ public class Employee {
     private Long id;
 
     @NotNull
-    @Column
+    @Column(unique = true)
+    @Size(min = 10, max = 60)
     private String fullName;
 
     @NotNull
@@ -52,90 +59,10 @@ public class Employee {
     @Column
     private String passwordHash;
 
-    public Employee() {
-    }
+    @ManyToMany
+    @JoinTable( name = "employee_skill",
+                joinColumns = @JoinColumn(referencedColumnName = "id", name = "employeeId"),
+                inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "skillId"))
+    private Set<Skill> skills;
 
-    public Employee(Long id, String fullName, Date dateOfBirth, String sex, String nationality, String workLocation, String currentPosition, Date startYearOfProfessionalExperience, String passwordHash) {
-        this.id = id;
-        this.fullName = fullName;
-        this.dateOfBirth = dateOfBirth;
-        this.sex = sex;
-        this.nationality = nationality;
-        this.workLocation = workLocation;
-        this.currentPosition = currentPosition;
-        this.startYearOfProfessionalExperience = startYearOfProfessionalExperience;
-        this.passwordHash = passwordHash;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
-    public String getWorkLocation() {
-        return workLocation;
-    }
-
-    public void setWorkLocation(String workLocation) {
-        this.workLocation = workLocation;
-    }
-
-    public String getCurrentPosition() {
-        return currentPosition;
-    }
-
-    public void setCurrentPosition(String currentPosition) {
-        this.currentPosition = currentPosition;
-    }
-
-    public Date getStartYearOfProfessionalExperience() {
-        return startYearOfProfessionalExperience;
-    }
-
-    public void setStartYearOfProfessionalExperience(Date startYearOfProfessionalExperience) {
-        this.startYearOfProfessionalExperience = startYearOfProfessionalExperience;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
 }
