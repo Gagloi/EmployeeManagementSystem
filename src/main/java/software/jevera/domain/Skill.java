@@ -6,14 +6,21 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "skill")
-public class Skill {
+public class Skill implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private Long id;
 
@@ -27,55 +34,4 @@ public class Skill {
     @Enumerated(value = EnumType.STRING)
     private SkillType skillType;
 
-    public Skill() {
-    }
-
-    public Skill(Long id, String name, Category category, SkillType skillType) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.skillType = skillType;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public SkillType getSkillType() {
-        return skillType;
-    }
-
-    public void setSkillType(SkillType skillType) {
-        this.skillType = skillType;
-    }
-
-    @Override
-    public String toString() {
-        return "Skill{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", category=" + category +
-                ", skillType=" + skillType +
-                '}';
-    }
 }

@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -20,6 +21,7 @@ public class Category {
 
     @NotNull
     @Column(unique = true)
+    @Size(min = 10, max = 60)
     private String name;
 
     public Category() {
@@ -44,5 +46,13 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
