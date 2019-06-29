@@ -17,13 +17,13 @@ public class AuthFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-//        if(httpServletRequest.getRequestURI().startsWith("/api/")){
-//            if(httpServletRequest.getSession() == null || httpServletRequest.getSession().getAttribute("user") == null){
-//                HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-//                httpServletResponse.setStatus(401);
-//                return;
-//            }
-//        }
+        if(httpServletRequest.getRequestURI().startsWith("/api/")){
+            if(httpServletRequest.getSession() == null || httpServletRequest.getSession().getAttribute("user") == null){
+                HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+                httpServletResponse.setStatus(401);
+                return;
+            }
+        }
         chain.doFilter(request, response);
     }
 }

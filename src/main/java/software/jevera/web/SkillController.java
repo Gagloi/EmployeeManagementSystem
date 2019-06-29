@@ -3,6 +3,7 @@ package software.jevera.web;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import software.jevera.domain.Skill;
+import software.jevera.domain.dto.SkillDto;
 import software.jevera.service.SkillService;
 
 import javax.servlet.http.HttpSession;
@@ -22,8 +23,8 @@ public class SkillController {
     }
 
     @PostMapping
-    public Skill createSkill(@RequestBody Skill skill){
-        return skillService.createSkill(skill);
+    public Skill createSkill(@RequestBody SkillDto skillDto){
+        return skillService.createSkill(skillDto);
     }
 
     @GetMapping("/{id}")
@@ -36,9 +37,9 @@ public class SkillController {
         skillService.deleteById(id);
     }
 
-    @PutMapping
-    public Skill updateSkill(@RequestBody Skill skill){
-        return skillService.update(skill);
+    @PutMapping("/{id}")
+    public Skill updateSkill(@RequestBody SkillDto skill, @PathVariable Long id){
+        return skillService.update(skill, id);
     }
 
 }

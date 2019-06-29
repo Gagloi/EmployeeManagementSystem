@@ -6,6 +6,7 @@ import software.jevera.domain.Category;
 import software.jevera.domain.Skill;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Long> {

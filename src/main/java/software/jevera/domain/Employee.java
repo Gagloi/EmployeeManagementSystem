@@ -1,6 +1,7 @@
 package software.jevera.domain;
 
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,22 +11,19 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Entity
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "employee")
+@Data
 public class Employee implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "employee_id", unique = true, nullable = false)
     private Long id;
 
     @NotNull
@@ -56,13 +54,22 @@ public class Employee implements Serializable {
     @Column
     private Date startYearOfProfessionalExperience;
 
-    @Column
-    private String passwordHash;
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private Set<EmployeeSkill> skills = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable( name = "employee_skill",
-                joinColumns = @JoinColumn(referencedColumnName = "id", name = "employeeId"),
-                inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "skillId"))
-    private Set<Skill> skills;
+    public Employee(@NotNull @Size(min = 10, max = 60) String fullName, @NotNull Date dateOfBirth, @NotNull String sex, String nationality, @NotNull String workLocation, @NotNull String currentPosition, @NotNull Date startYearOfProfessionalExperience) {
+        this.fullName = fullName;
+        this.dateOfBirth = dateOfBirth;
+        this.sex = sex;
+        this.nationality = nationality;
+        this.workLocation = workLocation;
+        this.currentPosition = currentPosition;
+        this.startYearOfProfessionalExperience = startYearOfProfessionalExperience;
+
+    }
+
+    public void addSkill(EmployeeSkill skill){
+        this.skills.add(skill);
+    }
 
 }

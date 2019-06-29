@@ -1,61 +1,66 @@
 package software.jevera.domain;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity(name = "EmployeeSkillEntity")
-@Table(name = "employee_skill")
+@Entity
 @NoArgsConstructor
-@ToString
+@Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class EmployeeSkill implements Serializable {
 
-    @EmbeddedId
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private EmployeeSkillIdLol employeeSkillIdLol;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    @Size(min = 1, max = 4)
+    @ManyToOne
+    @JoinColumn(name = "skill_id")
+    private Skill skill;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    @JsonIgnore
+    private Employee employee;
+
+    @Min(value = 1)
+    @Max(value = 4)
     private Integer proficiencyLevel;
 
     @DateTimeFormat(pattern = "yyyy")
-    private Date recentYearExperience;
+    private Date recentYearOfExperience;
 
-    public EmployeeSkill(Employee employee, Skill skill, Integer proficiencyLevel, Date recentYearExperience) {
-        this.employeeSkillIdLol = new EmployeeSkill.EmployeeSkillIdLol();
-        this.employeeSkillIdLol.employeeId = employee.getId();
-        this.employeeSkillIdLol.skillId = skill.getId();
+    public EmployeeSkill(Skill skill, Employee employee, Integer proficiencyLevel, Date recentYearOfExperience) {
+        this.skill = skill;
+        this.employee = employee;
         this.proficiencyLevel = proficiencyLevel;
-        this.recentYearExperience = recentYearExperience;
+        this.recentYearOfExperience = recentYearOfExperience;
     }
 
-    @Embeddable
-    public static class EmployeeSkillIdLol implements Serializable{
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmployeeSkill that = (EmployeeSkill) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(skill.getName(), that.skill.getName()) &&
+                Objects.equals(employee.getFullName(), that.employee.getFullName());
+    }
 
-        public Long skillId;
-
-        public Long employeeId;
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            EmployeeSkillIdLol that = (EmployeeSkillIdLol) o;
-            return Objects.equals(skillId, that.skillId) &&
-                    Objects.equals(employeeId, that.employeeId);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(skillId, employeeId);
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, skill.getName(), employee.getFullName());
     }
 
 }

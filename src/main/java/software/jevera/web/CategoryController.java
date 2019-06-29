@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import software.jevera.domain.Category;
 import software.jevera.domain.Skill;
+import software.jevera.domain.dto.CategoryDto;
+import software.jevera.domain.dto.EmployeeDto;
 import software.jevera.service.CategoryService;
 import software.jevera.service.SkillService;
 
@@ -18,13 +20,14 @@ public class CategoryController {
     private final HttpSession httpSession;
     private final CategoryService categoryService;
 
+
     @GetMapping
     public List<Category> findAllCategories(){
         return categoryService.findAll();
     }
 
     @PostMapping
-    public Category createCategory(@RequestBody Category category){
+    public Category createCategory(@RequestBody CategoryDto category){
         return categoryService.createCategory(category);
     }
 
@@ -38,9 +41,9 @@ public class CategoryController {
         categoryService.deleteById(id);
     }
 
-    @PutMapping
-    public Category updateCategory(@RequestBody Category category){
-        return categoryService.update(category);
+    @PutMapping("/{id}")
+    public Category updateCategory(@PathVariable Long id, CategoryDto categoryDto){
+        return categoryService.update(id, categoryDto);
     }
 
 

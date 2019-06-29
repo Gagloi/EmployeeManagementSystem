@@ -1,27 +1,22 @@
 package software.jevera.domain;
 
-import com.sun.istack.internal.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "category")
-public class Category {
+public class Category implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @NotNull
-    @Column(unique = true)
-    @Size(min = 10, max = 60)
+    @Column(unique = true, nullable = false)
+    @Size(min = 0, max = 60)
     private String name;
 
     public Category() {

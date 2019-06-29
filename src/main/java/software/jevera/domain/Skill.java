@@ -1,15 +1,14 @@
 package software.jevera.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Check;
+import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -21,7 +20,7 @@ public class Skill implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @Column(name = "skill_id", unique = true)
     private Long id;
 
     @Column
@@ -33,5 +32,9 @@ public class Skill implements Serializable {
 
     @Enumerated(value = EnumType.STRING)
     private SkillType skillType;
+
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<EmployeeSkill> employeeSkills;
 
 }
