@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 @Entity
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(of = "id")
 public class Employee implements Serializable {
 
     @Id

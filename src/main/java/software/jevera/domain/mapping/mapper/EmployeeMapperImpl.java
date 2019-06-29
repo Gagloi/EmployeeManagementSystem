@@ -9,6 +9,7 @@ import software.jevera.domain.mapping.EmployeeMapper;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EmployeeMapperImpl implements EmployeeMapper {
 
@@ -29,13 +30,15 @@ public class EmployeeMapperImpl implements EmployeeMapper {
         employeeDto.setNationality(employee.getNationality());
         employeeDto.setSex(employee.getSex());
         employeeDto.setStartYearOfProfessionalExperience(employee.getStartYearOfProfessionalExperience());
-        List<EmployeeSkillDto> employeeSkillDtos = new ArrayList<>();
-        employee.getSkills()
-                .stream()
-                .forEach(employeeSkill -> {
-                    employeeSkillDtos.add(new EmployeeSkillDto(employeeSkill.getId(), employeeSkill.getProficiencyLevel(), employeeSkill.getRecentYearOfExperience()));
-                });
-        employeeDto.setSkillId(employeeSkillDtos);
+        Set<EmployeeSkillDto> employeeSkillDtos = new HashSet<>();
+        if(employee.getSkills() != null) {
+            employee.getSkills()
+                    .stream()
+                    .forEach(employeeSkill -> {
+                        employeeSkillDtos.add(new EmployeeSkillDto(employeeSkill.getId(), employeeSkill.getProficiencyLevel(), employeeSkill.getRecentYearOfExperience()));
+                    });
+            employeeDto.setSkillId(employeeSkillDtos);
+        }
         return employeeDto;
     }
 

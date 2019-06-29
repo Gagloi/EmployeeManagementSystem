@@ -5,9 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import software.jevera.domain.Employee;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -28,7 +26,7 @@ public class EmployeeDto {
 
     private Date startYearOfProfessionalExperience;
 
-    private List<EmployeeSkillDto> skillId = new ArrayList<>(0);
+    private Set<EmployeeSkillDto> skillId = new HashSet<>(0);
 
     public EmployeeDto(Employee employee){
         this.fullName = employee.getFullName();

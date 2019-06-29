@@ -53,14 +53,14 @@ public class EmployeeSkill implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EmployeeSkill that = (EmployeeSkill) o;
-        return Objects.equals(id, that.id) &&
+        return
                 Objects.equals(skill.getName(), that.skill.getName()) &&
                 Objects.equals(employee.getFullName(), that.employee.getFullName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, skill.getName(), employee.getFullName());
+        return Objects.hash(skill, employee);
     }
 
 }

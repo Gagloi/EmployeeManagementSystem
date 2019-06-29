@@ -10,7 +10,9 @@ import software.jevera.dao.jpa.EmployeeSkillRepository;
 import software.jevera.dao.jpa.SkillRepository;
 import software.jevera.domain.Employee;
 import software.jevera.domain.EmployeeSkill;
+import software.jevera.domain.Skill;
 import software.jevera.domain.dto.EmployeeDto;
+import software.jevera.domain.dto.EmployeeSkillDto;
 import software.jevera.domain.mapping.EmployeeMapper;
 import software.jevera.exceptions.EntityNotFound;
 
@@ -131,6 +133,22 @@ public class EmployeeService {
                 .map(employeeMapper::toEmployeeDto)
                 .collect(Collectors.toList()));
         return resultSortedList;
+    }
+
+    public Employee addSkillById(Long employeeId, EmployeeSkillDto employeeSkillDto){
+        Employee employee = new Employee();
+        if (employeeRepository.existsById(employeeId)) {
+            employee = employeeRepository.getOne(employeeId);
+            if (skillRepository.existsById(employeeSkillDto.getSkillId())){
+                employee.addSkill(new EmployeeSkill(skillRepository.getOne(employeeSkillDto.getSkillId()), employee, employeeSkillDto.getProficiencyLevel(), employeeSkillDto.getRecentYearOfExperience()));
+                log.info("Updated employee: {}", employeeMapper.toEmployeeDto(employee));
+            } else {
+              throw new EntityNotFound("Can not find skill by id: " + employeeSkillDto.getSkillId());
+            }
+        }else {
+            throw new EntityNotFound("Can not find employee by id: " + employee.getId());
+        }
+        return employeeRepository.save(employee);
     }
 
 

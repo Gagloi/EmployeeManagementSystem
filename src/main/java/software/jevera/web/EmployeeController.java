@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import software.jevera.domain.Employee;
 import software.jevera.domain.dto.EmployeeDto;
+import software.jevera.domain.dto.EmployeeSkillDto;
 import software.jevera.service.EmployeeService;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,11 @@ public class EmployeeController {
     @PostMapping
     public Employee createEmployee(@RequestBody EmployeeDto employeeDto){
         return employeeService.createEmployee(employeeDto);
+    }
+
+    @PostMapping("/{id}/addSkill")
+    public Employee addSkillById(@RequestBody EmployeeSkillDto employeeSkillDto, @PathVariable Long id){
+        return employeeService.addSkillById(id, employeeSkillDto);
     }
 
     @GetMapping("/{id}")
